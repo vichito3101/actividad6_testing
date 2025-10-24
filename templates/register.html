@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crear cuenta</title>
+  <style>
+    :root{
+      --brand:#e8921c;          /* naranja cabecera/pie */
+      --bg:#f5f7fa;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --radius:14px;
+      --shadow:0 10px 25px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","Helvetica Neue",sans-serif; color:var(--text); background:var(--bg);}
+
+    header{
+      background:var(--brand);
+      color:#fff;
+      font-weight:700;
+      font-size:clamp(20px,2.5vw,28px);
+      text-align:center;
+      padding:18px 16px;
+      letter-spacing:.3px;
+    }
+
+    main{
+      min-height:calc(100vh - 140px);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px 16px;
+    }
+
+    .card{
+      width:min(90vw, 560px);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+    }
+    .card h2{
+      margin:0 0 20px 0;
+      text-align:center;
+      font-size:clamp(20px,2vw,26px);
+    }
+
+    form{display:flex; flex-direction:column; gap:12px;}
+
+    .input{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      font-size:16px;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s;
+      background:#fff;
+    }
+    .input:focus{
+      border-color:var(--brand);
+      box-shadow:0 0 0 3px rgba(232,146,28,.18);
+    }
+
+    .btn{
+      margin-top:6px;
+      padding:12px 14px;
+      border:none;
+      border-radius:10px;
+      background:var(--brand);
+      color:#fff;
+      font-weight:600;
+      font-size:16px;
+      cursor:pointer;
+      transition:transform .05s ease, filter .2s ease;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn:hover{ filter:brightness(1.05); }
+
+    .helper{
+      margin-top:8px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .linklike{
+      background:none; border:none; padding:0; margin:0;
+      color:#0d6efd; font:inherit; cursor:pointer;
+    }
+
+    #msg{ margin-top:6px; text-align:center; min-height:1.2em; font-weight:600; }
+    #msg.ok{ color:#0a0; } 
+    #msg.error{ color:#c00; }
+
+    /* Ocultos (si tu JS los requiere siguen en el DOM) */
+    .hidden{ display:none !important; }
+
+    footer{
+      background:var(--brand);
+      color:#fff;
+      text-align:center;
+      padding:18px 12px;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <header>Mi tienda Virtual Bodeguera</header>
+
+  <main>
+    <section class="card" aria-label="Formulario de registro">
+      <h2>Registro de Usuario</h2>
+
+      <form id="frmRegister" autocomplete="on">
+        <!-- Nombres -->
+        <input id="nombre" class="input" placeholder="Nombres" required />
+
+        <!-- Apellidos -->
+        <input id="apellido" class="input" placeholder="Apellidos" required />
+
+        <!-- Correo -->
+        <input id="email" class="input" type="email" placeholder="Correo" autocomplete="email" required />
+
+        <!-- Contraseña -->
+        <input id="password" class="input" type="password" placeholder="Contraseña (mín. 6)" autocomplete="new-password" required />
+
+       
+
+        <!-- Campos existentes que no aparecen en la maqueta (se dejan ocultos por compatibilidad) -->
+        <input id="nro_documento" class="hidden" />
+        <input id="edad" type="number" class="hidden" />
+        <select id="rol" class="hidden">
+          <option value="cliente" selected>cliente</option>
+          <option value="admin">admin</option>
+        </select>
+
+        <button type="submit" class="btn">Registrarse</button>
+
+        <p class="helper">
+          ¿Ya tienes cuenta?
+          <button type="button" id="btnBackLogin" class="linklike">Inicia sesión</button>
+        </p>
+
+        <div id="msg" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Copyright © 2025 Mi Tienda Virtual Bodeguera.
+  </footer>
+
+  <script src="/js/register.js" defer></script>
+</body>
+</html>

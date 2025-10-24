@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catálogo de Productos</title>
+  <style>
+    :root{
+      --brand:#e8921c; --bg:#f5f7fa; --card:#fff; --text:#0f172a; --muted:#6b7280;
+      --radius:14px; --shadow:0 10px 25px rgba(0,0,0,.08); --chip:#eef2f7; --chip-border:#d9e0ea;
+    }
+    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","Helvetica Neue",sans-serif;}
+
+    /* Header igual a tu estilo */
+    header{background:var(--brand);color:#fff;padding:14px 18px;position:sticky;top:0;z-index:20}
+    .hdr{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center}
+    .logo{font-weight:800;letter-spacing:.3px;font-size:clamp(18px,3vw,32px);white-space:nowrap}
+    .search{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:8px 12px}
+    .search input{width:280px;max-width:46vw;border:none;outline:none;font-size:15px;background:transparent;color:#111}
+    .hdr-actions{display:flex;gap:10px}
+    .btn-hdr{border:none;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer;color:#fff;background:rgba(0,0,0,.25)}
+    .btn-hdr:hover{background:rgba(0,0,0,.33)}
+
+    main{max-width:1200px;margin:20px auto 80px;padding:0 18px}
+
+    /* Chips */
+    #catChips{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px}
+    .chip{background:var(--chip);border:1px solid var(--chip-border);border-radius:999px;
+      padding:10px 16px;font-size:14px;color:#1f2937;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+    .chip .count{color:#6b7280;font-weight:600;font-size:12px}
+    .chip.active{background:#ffd9a8;border-color:#f9bf6b;color:#000;font-weight:700}
+
+    /* Cards */
+    #gridProducts{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:18px}
+    @media(min-width:720px){#gridProducts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(min-width:1024px){#gridProducts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .imgwrap{height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:12px;background:#fafafa;border:1px solid #eee}
+    .imgwrap img{max-height:100%;max-width:100%;object-fit:contain}
+    .title{margin:14px 0 6px;font-weight:800;font-size:20px}
+    .desc{margin:0 0 10px;color:var(--muted);line-height:1.45;min-height:42px}
+    .price{font-size:20px;font-weight:800;margin:8px 0 12px}
+    .cta{display:flex;justify-content:flex-end}
+    .btn-add{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .btn-add:disabled{opacity:.55;cursor:not-allowed}
+    #msg{margin:14px 0;font-weight:700;color:#c0392b;text-align:center;min-height:1.2em}
+
+    /* Footer igual */
+    footer{position:fixed;inset-inline:0;bottom:0;background:var(--brand);color:#fff;text-align:center;padding:16px 12px;font-size:14px}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="hdr">
+      <div class="logo">Mi tienda Virtual Bodeguera</div>
+      <div class="search" role="search">
+        <input id="searchBox" type="search" placeholder="Buscar productos..." autocomplete="off" />
+      </div>
+      <div class="hdr-actions">
+        <button id="btnCart" class="btn-hdr" title="Carrito">🛒</button>
+        <button id="btnLogout" class="btn-hdr" title="Cerrar sesión">Cerrar Sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav id="catChips" aria-label="Categorías"></nav>
+    <div id="msg" role="status" aria-live="polite"></div>
+    <section id="gridProducts" aria-live="polite"></section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>Copyright © 2025 Mi Tienda Virtual Bodeguera.</footer>
+
+  <script src="/js/productos.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inicio de Sesión</title>
+  <style>
+    :root{
+      --brand:#e8921c;          /* naranja de la cabecera/pie */
+      --bg:#f5f7fa;             /* fondo claro */
+      --card:#ffffff;           /* tarjeta */
+      --text:#0f172a;           /* texto principal */
+      --muted:#6b7280;          /* texto secundario */
+      --radius:14px;
+      --shadow:0 10px 25px rgba(0,0,0,.08);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    /* Barra superior */
+    header{
+      background:var(--brand);
+      color:#fff;
+      font-weight:700;
+      font-size:clamp(20px,2.5vw,28px);
+      text-align:center;
+      padding:18px 16px;
+      letter-spacing:.3px;
+    }
+
+    /* Contenido centrado */
+    main{
+      min-height:calc(100vh - 140px); /* resta header y footer (~70px c/u) */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px 16px;
+    }
+
+    /* Tarjeta del login */
+    .card{
+      width:min(90vw, 480px);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+    }
+    .card h2{
+      margin:0 0 20px 0;
+      text-align:center;
+      font-size:clamp(20px,2vw,26px);
+    }
+
+    form{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .input{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      font-size:16px;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s;
+      background:#fff;
+    }
+    .input:focus{
+      border-color:var(--brand);
+      box-shadow:0 0 0 3px rgba(232,146,28,.18);
+    }
+
+    .btn{
+      margin-top:6px;
+      padding:12px 14px;
+      border:none;
+      border-radius:10px;
+      background:var(--brand);
+      color:#fff;
+      font-weight:600;
+      font-size:16px;
+      cursor:pointer;
+      transition:transform .05s ease, filter .2s ease;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn:hover{ filter:brightness(1.05); }
+
+    .helper{
+      margin-top:10px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* Botón con estilo de enlace para no romper el id esperado por tu JS */
+    .linklike{
+      background:none;
+      border:none;
+      padding:0;
+      margin:0;
+      color:#0d6efd;
+      font:inherit;
+      cursor:pointer;
+    }
+
+    /* Mensaje de error */
+    #mensaje{
+      margin-top:14px;
+      text-align:center;
+      color:#c0392b;
+      font-weight:600;
+      min-height:1.2em; /* reserva espacio */
+    }
+
+    /* Pie de página */
+    footer{
+      background:var(--brand);
+      color:#fff;
+      text-align:center;
+      padding:18px 12px;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <header>Mi tienda Virtual Bodeguera</header>
+
+  <main>
+    <section class="card" aria-label="Formulario de inicio de sesión">
+      <h2>Inicia Sesión</h2>
+
+      <form id="loginForm" autocomplete="on">
+        <div class="field">
+          <input id="email" class="input" type="email" name="email"
+                 placeholder="Email" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <input id="password" class="input" type="password" name="password"
+                 placeholder="Password" autocomplete="current-password" required />
+        </div>
+
+        <button type="submit" class="btn">Ingresar</button>
+
+        <p class="helper">
+          ¿No tienes cuenta?
+          <button type="button" id="btnGoRegister" class="linklike">Regístrate aquí</button>
+        </p>
+
+        <div id="mensaje" role="alert" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Copyright © 2025 Mi Tienda Virtual Bodeguera.
+  </footer>
+
+  <script src="/js/login.js" defer></script>
+</body>
+</html>
