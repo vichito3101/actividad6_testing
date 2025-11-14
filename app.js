@@ -9,8 +9,11 @@ import PUERTO from "./utils/constantes.js";
 import api from "./routes.js";
 
 // Cabeceras de seguridad
-
 const app = _express();
+
+// 🔹 Muy importante: Express está detrás de Nginx
+app.set("trust proxy", 1);
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -20,39 +23,31 @@ app.use(
         "script-src": ["'self'"],
         "style-src": ["'self'", "'unsafe-inline'"],
 
-        // === CLAVE: permitir imágenes externas ===
-        // Opción estricta (solo Cloudinary + data:)
-        // "img-src": ["'self'", "data:", "https://res.cloudinary.com"],
-
-        // Opción práctica (cualquier https + data + blob)
+        // Permitir imágenes locales, data: y externas por https
         "img-src": ["'self'", "data:", "blob:", "https:"],
 
-        // Si usas fetch/XHR a otro origen, agrégalo aquí:
-        "connect-src": ["'self'", "http://localhost:4001"],
+        // Ahora todo pasa por el MISMO dominio (Nginx)
+        "connect-src": ["'self'"],
 
         "object-src": ["'none'"],
         "frame-ancestors": ["'none'"],
       },
     },
     frameguard: { action: "deny" },
-    crossOriginEmbedderPolicy: false, // evita conflictos si insertas iframes/imagenes externas
+    crossOriginEmbedderPolicy: false,
   })
 );
 
-
 // Bloquea claves que empiecen por $ o contengan .
 app.use((req, res, next) => {
-  // sanitiza body y params usando el sanitizer de la lib
   if (req.body)   req.body   = mongoSanitize.sanitize(req.body,   { replaceWith: "_" });
   if (req.params) req.params = mongoSanitize.sanitize(req.params, { replaceWith: "_" });
 
-  // para query: NO reasignamos req.query; solo mutamos sus claves
   const q = req.query;
   if (q && typeof q === "object") {
     for (const key of Object.keys(q)) {
       if (key.startsWith("$") || key.includes(".")) {
         const safe = key.replace(/\$/g, "").replace(/\./g, "_");
-        // mueve el valor a la clave segura y borra la peligrosa
         q[safe] = q[key];
         delete q[key];
       }
@@ -61,11 +56,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rate limit (ajusta según tu caso)
-const limiter = rateLimit({ windowMs: 15*60*1000, max: 300 });
+// Rate limit (ajuste según su caso)
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 300 });
 app.use(limiter);
+
 app.use(_bodyParser.json());
-app.use(_bodyParser.urlencoded({ extended: true, type: "application/x-www-form-urlencoded" }));
+app.use(
+  _bodyParser.urlencoded({
+    extended: true,
+    type: "application/x-www-form-urlencoded",
+  })
+);
 app.use(_cors);
 
 // estáticos
@@ -77,10 +78,9 @@ app.use("/api/v1", api);
 // Raíz
 app.get("/", (req, res) => res.redirect("/login.html"));
 
-// ⬇️ escucha solo cuando NO estés en tests
+// Escucha solo cuando NO esté en tests
 if (process.env.NODE_ENV !== "test") {
   app.listen(PUERTO, () => console.log("Listening on " + PUERTO));
 }
 
-// ⬇️ exporta la app para Supertest
 export default app;
