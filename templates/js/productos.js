@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = "http://localhost:4001/api/v1";
+const API_BASE = "/api/v1";
   const URL_PROD = `${API_BASE}/productos`;
   const URL_CATS = `${API_BASE}/productos/categorias`;
 

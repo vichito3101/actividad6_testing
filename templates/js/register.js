@@ -1,5 +1,5 @@
 // templates/js/register.js
-const API_BASE = "http://localhost:4001";
+const API_BASE = "/api/v1";
 
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (s) => document.querySelector(s);
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!payload.rol) payload.rol = "cliente";
 
     try {
-      const res = await fetch(`${API_BASE}/api/v1/seguridad/create`, {
+      const res = await fetch(`${API_BASE}/seguridad/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
