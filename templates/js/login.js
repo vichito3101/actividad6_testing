@@ -1,5 +1,8 @@
 // templates/js/login.js
-const API_BASE = "http://localhost:4001";
+
+// En producción no declares localhost ni el dominio.
+// Nginx ya envía /api hacia tu backend.
+const API_BASE = ""; 
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
@@ -12,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = document.getElementById("password").value;
 
     try {
-      const res = await fetch(`${API_BASE}/api/v1/seguridad/login`, {
+      const res = await fetch(`/api/v1/seguridad/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -26,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-     
       if (data.token) localStorage.setItem("token", data.token);
       if (data.refreshToken) localStorage.setItem("refreshToken", data.refreshToken);
 
