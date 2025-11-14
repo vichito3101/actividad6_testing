@@ -22,21 +22,18 @@ app.use(
         "default-src": ["'self'"],
         "script-src": ["'self'"],
         "style-src": ["'self'", "'unsafe-inline'"],
-
-        // Permitir imágenes locales, data: y externas por https
         "img-src": ["'self'", "data:", "blob:", "https:"],
-
-        // Ahora todo pasa por el MISMO dominio (Nginx)
         "connect-src": ["'self'"],
-
         "object-src": ["'none'"],
         "frame-ancestors": ["'none'"],
       },
     },
     frameguard: { action: "deny" },
     crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,   // 👈 añade esto para que no ponga ese header
   })
 );
+
 
 // Bloquea claves que empiecen por $ o contengan .
 app.use((req, res, next) => {
